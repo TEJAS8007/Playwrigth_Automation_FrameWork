@@ -10,6 +10,7 @@ class Product_Page {
         this.Item="a#item_4_title_link";
         this.VerifyName="div.inventory_details_name";
         this.AddCartButton="//button[text()='ADD TO CART']";
+        this.viewCart_Button="a[class='shopping_cart_link fa-layers fa-fw']";
 
     }
 
@@ -42,7 +43,7 @@ class Product_Page {
 
     async verify_Product_Name(name) {
 
-        const Name= await this.page.locator(this.VerifyName);
+        const Name= await this.page.locator(this.VerifyName).textContent();
         
         if(name===Name){
             console.log('Product Name Matched....');
@@ -54,5 +55,6 @@ class Product_Page {
 
     async click_On_Add_Cart() {
         await this.page.locator(this.AddCartButton).click();
+        await this.page.locator(this.viewCart_Button).click();
     }
 }

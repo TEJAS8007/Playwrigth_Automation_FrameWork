@@ -1,5 +1,8 @@
 const { escape } = require("querystring");
 const { threadId } = require("worker_threads");
+const{test,expect} = require('@playwright/test');
+const log = require('../logger');
+
 exports.Product_Page =
 class Product_Page {
 
@@ -18,10 +21,10 @@ class Product_Page {
         const title=await this.page.title();
         console.log('Expected_Title : ',title);
 
-        if(title===expected_title) {
-            console.log('Product Page Title Matched...');
+        if(await expect(this.page).toHaveTitle(expected_title)) {
+            log.info('Product Page Title Matched...');
         } else {
-            console.log('Product Page Title Not Matched...');
+            log.error('Product Page Title Not Matched...');
         }
     
     }
@@ -30,6 +33,12 @@ class Product_Page {
 
         const prod_No= await this.page.locator(this.product_Locator).all();
         console.log('No Of Products : ', prod_No.length);
+
+        if(expect(prod_No).toHaveLength(6)) {
+           log.info('Product Length Matched...');
+        } else {
+           log.error('Product lentgh not matched');
+        }
 
         for(let prod of prod_No) {
         console.log('Name Of Product : ', await prod.textContent());
